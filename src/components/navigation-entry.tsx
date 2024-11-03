@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { DocumentIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import deleteFile from "@/actions/delete-file";
@@ -13,6 +13,7 @@ type Props = {
 
 export default function NavigationEntry({ id, name }: Props) {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
 
   return (
     <li
@@ -38,7 +39,10 @@ export default function NavigationEntry({ id, name }: Props) {
       </Link>
       <button
         type="button"
-        onClick={() => deleteFile(id)}
+        onClick={async () => {
+          await deleteFile(id);
+          router.push("/files");
+        }}
         className={cn(
           "has-outline ml-auto flex aspect-square h-10 items-center justify-center rounded-md opacity-0 hover:bg-gray-200 focus-visible:bg-gray-200 focus-visible:opacity-100 group-hover:opacity-100 peer-focus-visible:opacity-100",
           {

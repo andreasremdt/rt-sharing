@@ -25,9 +25,5 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
-  return (
-    <div>
-      <Editor id={id} defaultValue={data.content} defaultVersion={data.version} />
-    </div>
-  );
+  return <Editor file={data} />;
 }

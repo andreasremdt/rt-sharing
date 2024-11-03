@@ -4,30 +4,29 @@ import { useEffect, useState } from "react";
 import supabase from "@/supabase/client";
 import CreateFileButton from "./create-file-button";
 import NavigationEntry from "./navigation-entry";
+import type { File } from "@/types/supabase";
 
 type Props = {
-  files: any[];
+  files: File[] | null;
 };
 
 export default function Navigation({ files }: Props) {
-  const [localFiles, setLocalFiles] = useState(files);
+  const [localFiles, setLocalFiles] = useState(() => files || []);
 
   useEffect(() => {
-    function handleUpdates(payload: unknown) {
-      switch (payload.eventType) {
-        case "INSERT":
-          setLocalFiles([payload.new, ...localFiles]);
-          break;
-
-        case "DELETE":
-          setLocalFiles(localFiles.filter((file) => file.id !== payload.old.id));
-          break;
-      }
-    }
-
     const channel = supabase
       .channel("realtime files")
-      .on("postgres_changes", { event: "*", schema: "public", table: "files" }, handleUpdates)
+      .on("postgres_changes", { event: "*", schema: "public", table: "files" }, (payload) => {
+        switch (payload.eventType) {
+          case "INSERT":
+            setLocalFiles([payload.new as File, ...localFiles]);
+            break;
+
+          case "DELETE":
+            setLocalFiles(localFiles.filter((file) => file.id !== payload.old.id));
+            break;
+        }
+      })
       .subscribe();
 
     return () => {

@@ -28,6 +28,8 @@ export default function NavigationEntry({ id, name }: Props) {
         className="has-outline peer flex h-full flex-1 items-center gap-2 rounded-md pl-2 font-medium"
       >
         <DocumentIcon
+          width={20}
+          height={20}
           className={cn("size-5 text-gray-400", {
             "text-rose-300": id === params.id,
           })}
@@ -45,6 +47,8 @@ export default function NavigationEntry({ id, name }: Props) {
         )}
       >
         <TrashIcon
+          width={20}
+          height={20}
           className={cn("size-5", {
             "text-rose-600": id === params.id,
           })}

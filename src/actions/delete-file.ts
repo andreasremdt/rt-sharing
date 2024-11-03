@@ -2,14 +2,13 @@
 
 import createClient from "@/supabase/server";
 
-async function deleteFile(id: string) {
+export default async function deleteFile(id: string) {
   const supabase = await createClient();
+  const session = await supabase.auth.getUser();
 
-  try {
-    await supabase.from("files").delete().eq("id", id);
-  } catch (error) {
-    console.log(error);
+  if (!session.data.user) {
+    return null;
   }
-}
 
-export default deleteFile;
+  await supabase.from("files").delete().eq("id", id).eq("user_id", session.data.user.id);
+}

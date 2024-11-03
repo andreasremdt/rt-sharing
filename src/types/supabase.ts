@@ -7,6 +7,7 @@ export type File = {
   name: string;
   updated_at: string;
   version: number;
+  user_id: string;
 };
 
 export type Database = {
@@ -46,6 +47,7 @@ export type Database = {
           name: string;
           updated_at?: string;
           version?: number;
+          user_id: string;
         };
         Update: {
           content?: string | null;
@@ -54,6 +56,7 @@ export type Database = {
           name?: string;
           updated_at?: string;
           version?: number;
+          user_id?: string;
         };
         Relationships: [];
       };

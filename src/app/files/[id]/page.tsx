@@ -9,9 +9,9 @@ type Props = {
 export default async function Page({ params }: Props) {
   const id = (await params).id;
   const supabase = await createClient();
-  const { data, error } = await supabase.from("files").select().eq("id", id).limit(1).single();
+  const { data } = await supabase.from("files").select().match({ id }).single();
 
-  if (error) {
+  if (!data) {
     notFound();
   }
 

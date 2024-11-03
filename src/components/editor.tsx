@@ -2,7 +2,7 @@
 
 import updateFile from "@/actions/update-file";
 import debounce from "@/lib/debounce";
-import createClient from "@/supabase/client";
+import supabase from "@/supabase/client";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 
 type Props = {
@@ -11,7 +11,6 @@ type Props = {
 };
 
 const id = "5d26b47c-0625-4356-938a-73ab220ed67e";
-const supabase = createClient();
 
 function Editor({ defaultValue = "", defaultVersion = 1 }: Props) {
   const [version, setVersion] = useState(defaultVersion);
@@ -31,13 +30,13 @@ function Editor({ defaultValue = "", defaultVersion = 1 }: Props) {
       }
     }
 
-    supabase
+    const channel = supabase
       .channel(id)
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "files" }, handleUpdates)
       .subscribe();
 
     return () => {
-      supabase.channel(id).unsubscribe();
+      supabase.removeChannel(channel);
     };
   }, [version]);
 

@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import supabase from "@/supabase/client";
-import Link from "next/link";
 import CreateFileButton from "./create-file-button";
-import deleteFile from "@/actions/delete-file";
+import NavigationEntry from "./navigation-entry";
 
 type Props = {
   files: any[];
@@ -17,7 +16,7 @@ export default function Navigation({ files }: Props) {
     function handleUpdates(payload: unknown) {
       switch (payload.eventType) {
         case "INSERT":
-          setLocalFiles([...localFiles, payload.new]);
+          setLocalFiles([payload.new, ...localFiles]);
           break;
 
         case "DELETE":
@@ -37,17 +36,12 @@ export default function Navigation({ files }: Props) {
   }, [localFiles]);
 
   return (
-    <nav>
+    <nav className="w-64 overflow-y-auto border-r border-gray-200 px-4 py-4">
       <CreateFileButton />
 
-      <ul>
+      <ul className="space-y-1">
         {localFiles.map((file) => (
-          <li key={file.id}>
-            <Link href={`/files/${file.id}`}>{file.name}</Link>
-            <button type="button" onClick={() => deleteFile(file.id)}>
-              Delete
-            </button>
-          </li>
+          <NavigationEntry key={file.id} id={file.id} name={file.name} />
         ))}
       </ul>
     </nav>

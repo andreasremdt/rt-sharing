@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import createClient from "@/supabase/server";
 import Navigation from "@/components/navigation";
+import { Source_Sans_3, Source_Code_Pro } from "next/font/google";
+import cn from "@/lib/cn";
+
+const sourceSans = Source_Sans_3({ subsets: ["latin"], variable: "--font-source-sans" });
+const sourceCode = Source_Code_Pro({ subsets: ["latin"], variable: "--font-source-mono" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,10 +23,16 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body
+        className={cn(
+          sourceSans.variable,
+          sourceCode.variable,
+          "flex h-screen font-sans text-gray-600 antialiased",
+        )}
+      >
         <Navigation files={data} />
 
-        {children}
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );

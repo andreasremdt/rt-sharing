@@ -51,9 +51,11 @@ function Editor({ id, defaultValue = "", defaultVersion = 1 }: Props) {
   return (
     <textarea
       ref={textareaRef}
-      className="h-96 w-full bg-gray-200"
+      className="h-screen w-full resize-none px-8 py-4 font-mono font-medium outline-none"
       defaultValue={defaultValue}
       onInput={debouncedHandleChange}
+      placeholder="Start typing to edit..."
+      spellCheck={false}
     />
   );
 }

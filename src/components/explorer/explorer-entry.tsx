@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { DocumentIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+
 import deleteFile from "@/actions/delete-file";
 import cn from "@/lib/cn";
 
@@ -11,7 +12,7 @@ type Props = {
   name: string;
 };
 
-export default function NavigationEntry({ id, name }: Props) {
+export default function ExplorerEntry({ id, name }: Props) {
   const params = useParams<{ id: string }>();
   const router = useRouter();
 

@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from "react";
 import supabase from "@/supabase/client";
-import CreateFileButton from "./create-file-button";
-import NavigationEntry from "./navigation-entry";
 import type { File } from "@/types/supabase";
+
+import ExplorerEntry from "./explorer-entry";
+import CreateFileButton from "./create-file-button";
 
 type Props = {
   files: File[] | null;
 };
 
-export default function Navigation({ files }: Props) {
+export default function Explorer({ files }: Props) {
   const [localFiles, setLocalFiles] = useState(() => files || []);
 
   useEffect(() => {
@@ -35,12 +36,12 @@ export default function Navigation({ files }: Props) {
   }, [localFiles]);
 
   return (
-    <nav className="w-64 overflow-y-auto border-r border-gray-200 px-4 py-4">
+    <nav className="w-64 overflow-y-auto border-r border-gray-200 p-4">
       <CreateFileButton />
 
       <ul className="space-y-1">
         {localFiles.map((file) => (
-          <NavigationEntry key={file.id} id={file.id} name={file.name} />
+          <ExplorerEntry key={file.id} id={file.id} name={file.name} />
         ))}
       </ul>
     </nav>

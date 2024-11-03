@@ -10,6 +10,7 @@ export default function CreateFileButton() {
 
   return (
     <form
+      className="mb-4"
       action={async (formData) => {
         setIsFormVisible(false);
         const id = await createFile(formData);
@@ -31,7 +32,7 @@ export default function CreateFileButton() {
         <>
           <input type="hidden" />
           <input
-            className="has-outline mb-1 h-10 w-full rounded-md border border-gray-200 px-4 -outline-offset-1"
+            className="has-outline h-10 w-full rounded-md border border-gray-200 px-4 -outline-offset-1"
             type="text"
             name="name"
             placeholder="Untitled"

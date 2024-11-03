@@ -1,30 +1,18 @@
-import createClient from "@/supabase/server";
-import Navigation from "@/components/navigation";
-import type { File } from "@/types/supabase";
+import { Suspense, type ReactNode } from "react";
+
 import Header from "@/components/header";
-import { redirect } from "next/navigation";
+import { Explorer, ExplorerSkeleton } from "@/components/explorer";
 
-export default async function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const supabase = await createClient();
-  const session = await supabase.auth.getUser();
+type Props = {
+  children: ReactNode;
+};
 
-  if (!session.data.user) {
-    redirect("/auth/login");
-  }
-
-  const files = await supabase
-    .from("files")
-    .select()
-    .eq("user_id", session.data.user.id)
-    .returns<File[]>();
-
+export default function Layout({ children }: Props) {
   return (
     <div className="flex h-screen">
-      <Navigation files={files.data} />
+      <Suspense fallback={<ExplorerSkeleton />}>
+        <Explorer />
+      </Suspense>
 
       <div className="flex-1">
         <Header />

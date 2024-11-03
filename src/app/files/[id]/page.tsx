@@ -6,6 +6,16 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+export async function generateMetadata({ params }: Props) {
+  const id = (await params).id;
+  const supabase = await createClient();
+  const { data } = await supabase.from("files").select().match({ id }).single();
+
+  return {
+    title: data?.name,
+  };
+}
+
 export default async function Page({ params }: Props) {
   const id = (await params).id;
   const supabase = await createClient();
@@ -17,7 +27,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <div>
-      <Editor defaultValue={data.content} defaultVersion={data.version} />
+      <Editor id={id} defaultValue={data.content} defaultVersion={data.version} />
     </div>
   );
 }

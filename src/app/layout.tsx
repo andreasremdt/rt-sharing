@@ -5,6 +5,7 @@ import Navigation from "@/components/navigation";
 import { Source_Sans_3, Source_Code_Pro } from "next/font/google";
 import cn from "@/lib/cn";
 import type { File } from "@/types/supabase";
+import Header from "@/components/header";
 
 const sourceSans = Source_Sans_3({ subsets: ["latin"], variable: "--font-source-sans" });
 const sourceCode = Source_Code_Pro({ subsets: ["latin"], variable: "--font-source-mono" });
@@ -33,7 +34,10 @@ export default async function RootLayout({
       >
         <Navigation files={data} />
 
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">
+          <Header />
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
